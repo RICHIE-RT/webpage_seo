@@ -1,6 +1,4 @@
-from webpagescraper.database_utility import database_utility
 from webpagescraper.log_utility import error_logger
-from fetch_keywords_from_url import get_keyword_search_volume
 from datetime import datetime
 from celery import Celery
 import base64
