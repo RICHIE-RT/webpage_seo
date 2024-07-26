@@ -15,7 +15,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 from collections import OrderedDict
 from urllib.parse import urljoin, urlparse, quote
-from onpagescraper.log_utility import info_logger, error_logger
+from webpagescraper.log_utility import info_logger, error_logger
 
 import re
 import os 

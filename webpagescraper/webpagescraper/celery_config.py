@@ -1,5 +1,5 @@
-from onpagescraper.database_utility import database_utility
-from onpagescraper.log_utility import error_logger
+from webpagescraper.database_utility import database_utility
+from webpagescraper.log_utility import error_logger
 from fetch_keywords_from_url import get_keyword_search_volume
 from datetime import datetime
 from celery import Celery
@@ -43,54 +43,16 @@ logger = app.log.get_default_logger()
 logger.setLevel(logging.INFO)
 
 timezone = pytz.timezone('Asia/Kolkata')
-table_name_for_search_volume = "project_on_page_seo_keywords"
-table_name_for_alt_image = "project_on_page_seo_alt_links"
 custom_headers = {
     'user-agent': USER_AGENT
 }
 
 
-@app.task
-def get_search_volume_keyword_difficulty(input_dict):
-    url = input_dict['url']
-    on_page_seo_id = input_dict['on_page_seo_id']
-    added_date = input_dict['added_date']
-    try:
-        list_of_keywords = get_keyword_search_volume(website_url=url)
-    except Exception as e:
-        error_logger.error(f'Getting data from google library. Target URL: {url}, {e}')
-        time.sleep(7)
-        try:
-            list_of_keywords = get_keyword_search_volume(website_url=url)
-        except Exception as e:
-            error_logger.error(f'Second time: Getting data from google library. Target URL: {url}, {e}')
-            
-    curr_time = datetime.now(timezone).strftime("%Y-%m-%d %H:%M:%S")
-    try:    
-        sorted_list_of_keywords = pd.DataFrame(list_of_keywords)
-        sorted_list_of_keywords['on_page_seo_id'] = on_page_seo_id
-        sorted_list_of_keywords['added_date'] = added_date
-        sorted_list_of_keywords['updated_date'] = curr_time
-        sorted_list_of_keywords.sort_values(by='search_volume', ascending=False, inplace=True)
-        sorted_list_of_keywords = sorted_list_of_keywords[:10]
-        # add_item replaced with add_df
-        database_utility.add_df(sorted_list_of_keywords, table_name_for_search_volume)
-    except Exception as e:
-        try:
-            if e == 'search_volume':
-                error_logger.error(f'Adding data into database. Target URL: {url}, {e}, {list_of_keywords}')
-            else:
-                error_logger.error(f'Adding data into database. Target URL: {url}, {e}')
-        except Exception as e:
-            error_logger.error(f'Adding data into database and checking exception. Target URL: {url}, {e}')
-
-
-
-@app.task(queue='queue2')
+@app.task(queue='queue')
 def get_alt_image_size(input_dict):
     image_id = input_dict['image_id']
     image_url = input_dict['image_url']
-    on_page_seo_id = input_dict['on_page_seo_id']
+    seo_id = input_dict['seo_id']
 
     try:
         if (
@@ -133,10 +95,10 @@ def get_alt_image_size(input_dict):
         image_data = {
             'id': image_id,
             'size': image_size,
-            'on_page_seo_id': on_page_seo_id,
+            'seo_id': seo_id,
         }
-        if RUN_IN_LOCAL: print(image_data)
-        else: database_utility.add_item(image_data, table_name_for_alt_image)
+        if RUN_IN_LOCAL: 
+            print(image_data)
     
     except Exception as e:
         error_logger.error(f"Error during the generating the size of alt image: {image_url}, {e}")

@@ -8,7 +8,7 @@
 from itemadapter import ItemAdapter
 
 
-class OnpagescraperPipeline:
+class webpagescraperPipeline:
 
     items = dict()
 

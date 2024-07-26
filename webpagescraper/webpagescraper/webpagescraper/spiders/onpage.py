@@ -1,7 +1,7 @@
 from scrapy.http import HtmlResponse
 from scrapy.selector.unified import SelectorList
 from scrapy.spidermiddlewares.httperror import HttpError
-from onpagescraper.log_utility import info_logger, error_logger
+from webpagescraper.log_utility import info_logger, error_logger
 # from twisted.internet.error import DNSLookupError
 from scrapy.exceptions import CloseSpider
 from collections import OrderedDict

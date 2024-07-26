@@ -1,4 +1,4 @@
-# Scrapy settings for onpagescraper project
+# Scrapy settings for webpagescraper project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,14 +7,14 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'onpagescraper'
+BOT_NAME = 'webpagescraper'
 
-SPIDER_MODULES = ['onpagescraper.spiders']
-NEWSPIDER_MODULE = 'onpagescraper.spiders'
+SPIDER_MODULES = ['webpagescraper.spiders']
+NEWSPIDER_MODULE = 'webpagescraper.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'onpagescraper (+http://www.yourdomain.com)'
+#USER_AGENT = 'webpagescraper (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -45,13 +45,13 @@ ROBOTSTXT_OBEY = False
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'onpagescraper.middlewares.OnpagescraperSpiderMiddleware': 543,
+#    'webpagescraper.middlewares.webpagescraperSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   'onpagescraper.middlewares.OnpagescraperDownloaderMiddleware': 543,
+   'webpagescraper.middlewares.webpagescraperDownloaderMiddleware': 543,
 }
 
 # Enable or disable extensions
@@ -63,7 +63,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'onpagescraper.pipelines.OnpagescraperPipeline': 300,
+   'webpagescraper.pipelines.webpagescraperPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
